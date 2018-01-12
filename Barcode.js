@@ -54,9 +54,6 @@ export default class Barcode extends Component {
     }
 
     componentDidMount() {
-        console.log(typeof BarcodeManager);
-        console.log(NativeModules);
-
         AppState.addEventListener('change', this._handleAppStateChange);
     }
     componentWillUnmount() {
