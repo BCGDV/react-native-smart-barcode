@@ -10,7 +10,7 @@
 
 @implementation RCTBarcodeManager
 
-RCT_EXPORT_MODULE(RCTBarcode)
+RCT_EXPORT_MODULE()
 
 RCT_EXPORT_VIEW_PROPERTY(scannerRectWidth, NSInteger)
 
@@ -109,7 +109,22 @@ RCT_EXPORT_METHOD(startSession) {
     #if TARGET_IPHONE_SIMULATOR
     return;
     #endif
+    AVAuthorizationStatus authStatus = [AVCaptureDevice authorizationStatusForMediaType:AVMediaTypeVideo];
+    if (authStatus == AVAuthorizationStatusDenied)
+    {
+        // 提示用户打开相机服务
+        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"温馨提示" message:@"检测到您未开启相机服务，请在（设置-隐私-相机-开启ETM相机服务）。" preferredStyle:UIAlertControllerStyleAlert];
+
+        UIAlertAction *closeAction = [UIAlertAction actionWithTitle:@"我知道了" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+            [self stopSession];
+        }];
+        [alert setValue:@[closeAction] forKeyPath:@"actions"];
+
+        [[UIApplication sharedApplication].keyWindow.rootViewController presentViewController:alert animated:YES completion:nil];
+    }
+    
     dispatch_async(self.sessionQueue, ^{
+        if (authStatus == AVAuthorizationStatusDenied) { return ; }
         
 //        NSLog(@"self.metadataOutput = %@", self.metadataOutput);
         
