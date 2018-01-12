@@ -10,7 +10,7 @@
 
 @implementation RCTBarcodeManager
 
-RCT_EXPORT_MODULE(RCTBarcode)
+RCT_EXPORT_MODULE()
 
 RCT_EXPORT_VIEW_PROPERTY(scannerRectWidth, NSInteger)
 

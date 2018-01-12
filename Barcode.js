@@ -18,7 +18,7 @@ import {
 } from 'react-native'
 import PropTypes from 'prop-types';
 
-const BarcodeManager = Platform.OS == 'ios' ? NativeModules.RCTBarcodeManager : NativeModules.CaptureModule
+const BarcodeManager = Platform.OS === 'ios' ? NativeModules.BarcodeManager : NativeModules.CaptureModule
 
 
 export default class Barcode extends Component {
@@ -54,6 +54,9 @@ export default class Barcode extends Component {
     }
 
     componentDidMount() {
+        console.log(typeof BarcodeManager);
+        console.log(NativeModules);
+
         AppState.addEventListener('change', this._handleAppStateChange);
     }
     componentWillUnmount() {
